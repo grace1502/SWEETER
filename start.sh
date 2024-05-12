@@ -1,3 +1,11 @@
-MONGODB_CONNECTION_STRING = "mongodb://grace:sparta@ac-luh7xkk-shard-00-00.r4fnst4.mongodb.net:27017,ac-luh7xkk-shard-00-01.r4fnst4.mongodb.net:27017,ac-luh7xkk-shard-00-02.r4fnst4.mongodb.net:27017/?ssl=true&replicaSet=atlas-66k3xp-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0"
-client = MongoClient(MONGODB_CONNECTION_STRING)
-db = client.db
+set -eu
+export PYTHONUNBUFFERED=true
+VIRTUALENV=.data/venv
+if [ ! -d $VIRTUALENV ]; then
+  python3 -m venv $VIRTUALENV
+fi
+if [ ! -f $VIRTUALENV/bin/pip ]; then
+  curl --silent --show-error --retry 5 https://bootstrap.pypa.io/pip/3.5/get-pip.py | $VIRTUALENV/bin/python3
+fi
+$VIRTUALENV/bin/pip install -r requirements.txt
+$VIRTUALENV/bin/python3 app.py
